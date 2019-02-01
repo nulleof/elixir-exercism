@@ -19,10 +19,10 @@ defmodule TournamentTest do
     ]
 
     expected =  %{
-              "Allegoric Alaskans" => %{D: 0, L: 1, W: 2},
-              "Blithering Badgers" => %{D: 0, L: 1, W: 0},
-              "Courageous Californians" => %{D: 1, L: 1, W: 0},
-              "Devastating Donkeys" => %{D: 1, L: 0, W: 1}
+              "Allegoric Alaskans" => %{D: 0, L: 1, W: 2, P: 6, MP: 3},
+              "Blithering Badgers" => %{D: 0, L: 1, W: 0, P: 0, MP: 1},
+              "Courageous Californians" => %{D: 1, L: 1, W: 0, P: 1, MP: 2},
+              "Devastating Donkeys" => %{D: 1, L: 0, W: 1, P: 4, MP: 2}
             }
 
     assert Tournament.gen_result_map(input) == expected
@@ -38,8 +38,8 @@ defmodule TournamentTest do
     ]
 
     expected =  %{
-              "Blithering Badgers" => %{D: 0, L: 1, W: 0},
-              "Devastating Donkeys" => %{D: 0, L: 0, W: 1}
+              "Blithering Badgers" => %{D: 0, L: 1, W: 0, P: 0, MP: 1},
+              "Devastating Donkeys" => %{D: 0, L: 0, W: 1, P: 3, MP: 1}
             }
 
     assert Tournament.gen_result_map(input) == expected
