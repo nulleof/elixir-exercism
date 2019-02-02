@@ -64,6 +64,55 @@ defmodule TournamentTest do
     assert Tournament.gen_table_row("Devastating Donkeys", %{MP: 3, W: 2, D: 1, L: 0, P: 7}) == "Devastating Donkeys            |  3 |  2 |  1 |  0 |  7\n"
   end
 
+  test "get_first_team" do
+    input_map = %{
+      "Blithering Badgers" => %{D: 0, L: 1, W: 0, P: 0, MP: 1},
+      "Devastating Donkeys" => %{D: 0, L: 0, W: 1, P: 3, MP: 1}
+    }
+
+    assert Tournament.get_first_team(input_map) == "Devastating Donkeys"
+
+    input = %{
+      "Blithering Badgers" => %{D: 0, L: 1, W: 0, P: 3, MP: 1},
+      "Devastating Donkeys" => %{D: 0, L: 0, W: 1, P: 3, MP: 1}
+    }
+    assert Tournament.get_first_team(input) == "Blithering Badgers"
+  end
+
+  test "gen_table_for_teams" do
+    input_map = %{
+      "Blithering Badgers" => %{D: 0, L: 1, W: 0, P: 0, MP: 1},
+    }
+    assert Tournament.gen_table_for_teams("", input_map) == "Blithering Badgers             |  1 |  0 |  0 |  1 |  0\n"
+
+    input_map = %{
+      "Blithering Badgers" => %{D: 0, L: 1, W: 0, P: 0, MP: 1},
+    }
+    assert Tournament.gen_table_for_teams("Team                           | MP |  W |  D |  L |  P\n", input_map) ==  """
+      Team                           | MP |  W |  D |  L |  P
+      Blithering Badgers             |  1 |  0 |  0 |  1 |  0
+      """
+
+    input_map = %{
+      "Blithering Badgers" => %{D: 0, L: 1, W: 0, P: 0, MP: 1},
+      "Devastating Donkeys" => %{D: 0, L: 0, W: 1, P: 3, MP: 1}
+    }
+    assert Tournament.gen_table_for_teams("", input_map) == """
+      Devastating Donkeys            |  1 |  1 |  0 |  0 |  3
+      Blithering Badgers             |  1 |  0 |  0 |  1 |  0
+      """
+
+    input_map = %{
+      "Blithering Badgers" => %{D: 0, L: 1, W: 0, P: 0, MP: 1},
+      "Devastating Donkeys" => %{D: 0, L: 0, W: 1, P: 3, MP: 1}
+    }
+    assert Tournament.gen_table_for_teams("Team                           | MP |  W |  D |  L |  P\n", input_map) == """
+      Team                           | MP |  W |  D |  L |  P
+      Devastating Donkeys            |  1 |  1 |  0 |  0 |  3
+      Blithering Badgers             |  1 |  0 |  0 |  1 |  0
+      """
+  end
+
   @tag :pending
   test "typical input" do
     input = [

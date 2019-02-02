@@ -16,7 +16,36 @@ defmodule Tournament do
 
     # next we should generate output table
 
-    res_str = gen_table_row("Team", %{MP: "MP", W: "W", D: "D", L: "L", P: "P"})
+    gen_table_row("Team", %{MP: "MP", W: "W", D: "D", L: "L", P: "P"})
+    |> gen_table_for_teams(result_map)
+  end
+
+  def gen_table_for_teams(accum, map) when map == %{}, do: accum
+
+  @spec gen_table_for_teams(String.t, map) :: map
+  def gen_table_for_teams(accum, map) do
+    first_team = get_first_team(map)
+
+    first_team_row = gen_table_row(first_team, map[first_team])
+
+    gen_table_for_teams(accum <> first_team_row, Map.delete(map, first_team))
+  end
+
+  @spec get_first_team(map) :: String.t()
+  def get_first_team(map) do
+    biggest_score = 0
+
+    biggest_score = Enum.reduce(map, biggest_score, fn {_key, %{P: score}}, acc ->
+      if acc < score, do: score, else: acc
+    end)
+
+    biggest_score_teams = Enum.reduce(map, [], fn {key, %{P: score}}, acc ->
+      if biggest_score == score, do: [key] ++ acc, else: acc
+    end)
+
+    sorted_teams = Enum.sort(biggest_score_teams)
+
+    hd sorted_teams
   end
 
   @spec get_spaces(input :: Integer.t()) :: String.t()
