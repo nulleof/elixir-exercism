@@ -45,6 +45,25 @@ defmodule TournamentTest do
     assert Tournament.gen_result_map(input) == expected
   end
 
+  test "str_right_pad" do
+    assert Tournament.str_right_pad("Team", 31) == "Team                           "
+    assert Tournament.str_right_pad("Team", 5) == "Team "
+    assert Tournament.str_right_pad("Team", 2) == "T "
+  end
+
+  test "str_center_pad" do
+    assert Tournament.str_center_pad("", 4) == "    "
+    assert Tournament.str_center_pad("5", 4) == "  5 "
+    assert Tournament.str_center_pad("10", 4) == " 10 "
+    assert Tournament.str_center_pad("WP", 4) == " WP "
+    assert Tournament.str_center_pad("WPSSSZ", 4) == " WP "
+  end
+
+  test "gen_table_row" do
+    assert Tournament.gen_table_row("Team", %{MP: "MP", W: "W", D: "D", L: "L", P: "P"}) == "Team                           | MP |  W |  D |  L |  P\n"
+    assert Tournament.gen_table_row("Devastating Donkeys", %{MP: 3, W: 2, D: 1, L: 0, P: 7}) == "Devastating Donkeys            |  3 |  2 |  1 |  0 |  7\n"
+  end
+
   @tag :pending
   test "typical input" do
     input = [
