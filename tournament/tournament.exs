@@ -18,6 +18,7 @@ defmodule Tournament do
 
     gen_table_row("Team", %{MP: "MP", W: "W", D: "D", L: "L", P: "P"})
     |> gen_table_for_teams(result_map)
+    |> String.trim()
   end
 
   def gen_table_for_teams(accum, map) when map == %{}, do: accum
@@ -152,7 +153,7 @@ defmodule Tournament do
   def add_line_to_map(map, line) do
     case String.split(line, ";") do
       [team_1, team_2, "win"] -> insert_result(map, team_1, :win) |> insert_result(team_2, :lose)
-      [team_1, team_2, "lose"] -> insert_result(map, team_1, :lose) |> insert_result(team_2, :win)
+      [team_1, team_2, "loss"] -> insert_result(map, team_1, :lose) |> insert_result(team_2, :win)
       [team_1, team_2, "draw"] -> insert_result(map, team_1, :draw) |> insert_result(team_2, :draw)
       _ -> map
     end

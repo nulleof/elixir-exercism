@@ -20,9 +20,9 @@ defmodule TournamentTest do
 
     expected =  %{
               "Allegoric Alaskans" => %{D: 0, L: 1, W: 2, P: 6, MP: 3},
-              "Blithering Badgers" => %{D: 0, L: 1, W: 0, P: 0, MP: 1},
-              "Courageous Californians" => %{D: 1, L: 1, W: 0, P: 1, MP: 2},
-              "Devastating Donkeys" => %{D: 1, L: 0, W: 1, P: 4, MP: 2}
+              "Blithering Badgers" => %{D: 0, L: 2, W: 1, P: 3, MP: 3},
+              "Courageous Californians" => %{D: 1, L: 2, W: 0, P: 1, MP: 3},
+              "Devastating Donkeys" => %{D: 1, L: 0, W: 2, P: 7, MP: 3}
             }
 
     assert Tournament.gen_result_map(input) == expected
@@ -34,12 +34,12 @@ defmodule TournamentTest do
       "Allegoric Alaskans@Blithering Badgers;draw",
       "Blithering Badgers;Devastating Donkeys;lose",
       "Devastating Donkeys;Courageous Californians;win;5",
-      "Courageous Californians;Allegoric Alaskans;los"
+      "Courageous Californians;Allegoric Alaskans;loss"
     ]
 
     expected =  %{
-              "Blithering Badgers" => %{D: 0, L: 1, W: 0, P: 0, MP: 1},
-              "Devastating Donkeys" => %{D: 0, L: 0, W: 1, P: 3, MP: 1}
+              "Courageous Californians" => %{D: 0, L: 1, W: 0, P: 0, MP: 1},
+              "Allegoric Alaskans" => %{D: 0, L: 0, W: 1, P: 3, MP: 1}
             }
 
     assert Tournament.gen_result_map(input) == expected
@@ -113,7 +113,7 @@ defmodule TournamentTest do
       """
   end
 
-  @tag :pending
+  # @tag :pending
   test "typical input" do
     input = [
       "Allegoric Alaskans;Blithering Badgers;win",
@@ -137,7 +137,7 @@ defmodule TournamentTest do
     assert Tournament.tally(input) == expected
   end
 
-  @tag :pending
+  # @tag :pending
   test "incomplete competition (not all pairs have played)" do
     input = [
       "Allegoric Alaskans;Blithering Badgers;loss",
@@ -159,7 +159,7 @@ defmodule TournamentTest do
     assert Tournament.tally(input) == expected
   end
 
-  @tag :pending
+  # @tag :pending
   test "ties broken alphabetically" do
     input = [
       "Courageous Californians;Devastating Donkeys;win",
@@ -183,14 +183,14 @@ defmodule TournamentTest do
     assert Tournament.tally(input) == expected
   end
 
-  @tag :pending
+  # @tag :pending
   test "mostly invalid lines" do
     # Invalid input lines in an otherwise-valid game still results in valid
     # output.
     input = [
       "",
       "Allegoric Alaskans@Blithering Badgers;draw",
-      "Blithering Badgers;Devastating Donkeys;lose",
+      "Blithering Badgers;Devastating Donkeys;loss",
       "Devastating Donkeys;Courageous Californians;win;5",
       "Courageous Californians;Allegoric Alaskans;los"
     ]
